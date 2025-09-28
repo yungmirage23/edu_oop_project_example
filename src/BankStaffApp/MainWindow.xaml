@@ -1,0 +1,75 @@
+﻿<Window x:Class="BankStaffApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:BankStaffApp"
+        Title="Облік працівників банку" Height="720" Width="920">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Список працівників -->
+        <DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" AutoGenerateColumns="False" Grid.Row="0" Margin="0 0 0 10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ім’я" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Дата прийому" Binding="{Binding HireDate}" Width="*"/>
+                <DataGridTextColumn Header="Відділення" Binding="{Binding Branch.Name}" Width="*"/>
+                <DataGridTextColumn Header="Посада" Binding="{Binding Position.Title}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Форма додавання працівника -->
+        <GroupBox Header="Дані працівника" Grid.Row="1" Margin="0 0 0 10">
+            <StackPanel Orientation="Horizontal" Margin="10" VerticalAlignment="Center">
+                <StackPanel Margin="5">
+                    <TextBlock Text="Ім’я:" />
+                    <TextBox Width="150" Text="{Binding NewEmployee.Name, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <TextBlock Text="Дата прийому:" />
+                    <DatePicker SelectedDate="{Binding NewEmployee.HireDate, Mode=TwoWay}" Width="150"/>
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <TextBlock Text="Відділення:" />
+                    <ComboBox ItemsSource="{Binding Branches}" SelectedValuePath="Id" DisplayMemberPath="Name" SelectedValue="{Binding NewEmployee.BranchId}" Width="150"/>
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <TextBlock Text="Посада:" />
+                    <ComboBox ItemsSource="{Binding Positions}" SelectedValuePath="Id" DisplayMemberPath="Title" SelectedValue="{Binding NewEmployee.PositionId}" Width="150"/>
+                </StackPanel>
+                <StackPanel Margin="5" VerticalAlignment="Bottom" Orientation="Horizontal">
+                    <Button Content="Додати" Click="Add_Click" Width="80" Margin="2"/>
+                    <Button Content="Оновити" Click="Update_Click" Width="80" Margin="2"/>
+                    <Button Content="Видалити" Click="Delete_Click" Width="80" Margin="2"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Додавання відділення і посади -->
+        <GroupBox Header="Додати відділення та посаду" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <StackPanel Margin="5">
+                    <TextBlock Text="Назва відділення:" />
+                    <TextBox Width="150" Text="{Binding NewBranch.Name}" />
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <TextBlock Text="Місто:" />
+                    <TextBox Width="150" Text="{Binding NewBranch.City}" />
+                </StackPanel>
+                <Button Content="Додати відділення" Click="AddBranch_Click" Width="140" Height="40" Margin="5" VerticalAlignment="Bottom"/>
+
+                <StackPanel Margin="20,0,5,0">
+                    <TextBlock Text="Назва посади:" />
+                    <TextBox Width="150" Text="{Binding NewPosition.Title}" />
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <TextBlock Text="Зарплата:" />
+                    <TextBox Width="100" Text="{Binding NewPosition.Salary}" />
+                </StackPanel>
+                <Button Content="Додати посаду" Click="AddPosition_Click" Width="140" Height="40" Margin="5" VerticalAlignment="Bottom"/>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>
